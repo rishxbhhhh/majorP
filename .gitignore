@@ -1,0 +1,6 @@
+attendance__record.db
+res
+doc
+__pycache__
+trained_face_model.npy
+*.mp3
