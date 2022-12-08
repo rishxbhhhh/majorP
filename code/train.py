@@ -1,4 +1,4 @@
-import os,sys,time
+import os,time
 import cv2
 import numpy
 import lbph as lr
@@ -10,19 +10,21 @@ baseDir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\data'
 fn_haar = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\code\\haarcascade_frontalface_default.xml'
 fn_dir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\database'
 
+sound__file = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3'
+
 def play__sound(s):
     mytext = s
-    language = 'en-us'
+    language = 'en'
     myobj = gTTS(text=mytext, lang=language, slow=False)
-    filename = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3'
-    myobj.save(filename)
-    playsound(filename)
-    os.remove('C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3')
+    myobj.save(sound__file)
+    playsound(sound__file)
+    os.remove(sound__file)
+
 
 def TrainFromSavedPhotos():
     persons = os.listdir(baseDir)
     print("Fetching Data...")
-    play__sound("Fetching Data")
+    #play__sound('fetching data')
     for person in persons:
         images = os.listdir(baseDir+"\\"+person)
         count = 0
@@ -55,7 +57,7 @@ def TrainFromSavedPhotos():
                     break; 
 
     print('Training...')
-    play__sound("The model is now Training")
+    #play__sound('the model is now training')
 
     # Create a list of images and a list of corresponding names
     (images, lables, names, id) = ([], [], {}, 0)
@@ -75,15 +77,15 @@ def TrainFromSavedPhotos():
     (images, lables) = [numpy.array(lis) for lis in [images, lables]]
     trained_face_recognizer=lr.train_lbph(images)
     print('done')
-    play__sound("The model is now trained.")
+    #play__sound('the model is now trained')
     numpy.save(savedModelLocation,trained_face_recognizer)
-    
+
 
 def TrainFromWebcam():
     count = 0
     size = 4
-    play__sound("Please Enter Enrollment Number or ID")
-    fn_name = input('Enter Enrollment/ID No. of Student/Staff: ') 
+    #play__sound('Please enter your name or enrollment number')
+    fn_name = input('Enter Your Enrollment Number: ') 
     path = os.path.join(fn_dir, fn_name)
     if not os.path.isdir(path):
         os.mkdir(path)
@@ -93,7 +95,7 @@ def TrainFromWebcam():
 
     print("--------------Ensure that the room is well lit--------------")
     print("-----------------------Taking pictures----------------------")
-    play__sound("Ensure the room is well lit and the distance between face and camera is within half a meter for better accuracy.")
+    #play__sound("Ensure the room is well lit and the distance between face and camera is not more than half a meter for better accuracy")
     # The program loops until it has a few images of the face.
 
     while count < 20:
@@ -115,7 +117,7 @@ def TrainFromWebcam():
             count += 1
         
             
-        cv2.imshow('OpenCV', im)
+        #cv2.imshow('OpenCV', im)
         key = cv2.waitKey(10)
         if key == 27:
             break
@@ -124,7 +126,7 @@ def TrainFromWebcam():
     webcam.release()
     size = 4
     print('Training...')
-    play__sound("The model is now training")
+    #play__sound('the model is now training')
     # Create a list of images and a list of corresponding names
     (images, lables, names, id) = ([], [], {}, 0)
     for (subdirs, dirs, files) in os.walk(fn_dir):
@@ -143,5 +145,5 @@ def TrainFromWebcam():
     (images, lables) = [numpy.array(lis) for lis in [images, lables]]
     trained_face_recognizer=lr.train_lbph(images)
     print('done')
-    play__sound("the model is now trained")
+    #play__sound('the model is now trained')
     numpy.save(savedModelLocation,trained_face_recognizer)
