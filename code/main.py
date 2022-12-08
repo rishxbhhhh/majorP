@@ -10,27 +10,37 @@ from playsound import playsound
 
 from train import TrainFromSavedPhotos,TrainFromWebcam
 
-savedModelLocation = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorP\\code\\trained_face_model.npy'
-baseDir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\data'
-fn_haar = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\code\\haarcascade_frontalface_default.xml'
-fn_dir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\database'
+curr_dir = os.path.dirname(__file__)
+
+savedModelLocation = os.path.join(curr_dir, 'trained_face_model.npy')
+baseDir = os.path.join(curr_dir, '..', 'res', 'data')
+fn_haar = (curr_dir, 'haarcascade_frontalface_default.xml')
+fn_dir = (curr_dir, '..', 'res', 'database')
+
+# savedModelLocation = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorP\\code\\trained_face_model.npy'
+# baseDir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\data'
+# fn_haar = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\code\\haarcascade_frontalface_default.xml'
+# fn_dir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\database'
 
 
 def play__sound(s):
     mytext = s
     language = 'en-us'
     myobj = gTTS(text=mytext, lang=language, slow=False)
-    filename = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3'
+    # filename = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3'
+    filename = os.path.join(curr_dir, '..', testvoice.mp3)
     myobj.save(filename)
     playsound(filename)
-    os.remove('C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3')
+    os.remove(filename)
+    # os.remove('C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3')
 
 
 
 def LoadModelAndRun():
     trained_face_recognizer=numpy.load(savedModelLocation)
     # Load prebuilt model for Frontal Face
-    cascadePath = "C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\code\\haarcascade_frontalface_default.xml"
+    # cascadePath = "C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\code\\haarcascade_frontalface_default.xml"
+    cascadePath = fn_haar
     (im_width, im_height) = (68, 68)
     # Part 2: Use fisherRecognizer on camera stream
     (images, lables, names, id) = ([], [], {}, 0)

@@ -5,19 +5,26 @@ import lbph as lr
 from playsound import playsound
 from gtts import gTTS
 
-savedModelLocation = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorP\\code\\trained_face_model.npy'
-baseDir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\data'
-fn_haar = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\code\\haarcascade_frontalface_default.xml'
-fn_dir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\database'
+savedModelLocation = os.path.join(curr_dir, 'trained_face_model.npy')
+baseDir = os.path.join(curr_dir, '..', 'res', 'data')
+fn_haar = (curr_dir, 'haarcascade_frontalface_default.xml')
+fn_dir = (curr_dir, '..', 'res', 'database')
+
+# savedModelLocation = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorP\\code\\trained_face_model.npy'
+# baseDir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\data'
+# fn_haar = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\code\\haarcascade_frontalface_default.xml'
+# fn_dir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\database'
 
 def play__sound(s):
     mytext = s
     language = 'en-us'
     myobj = gTTS(text=mytext, lang=language, slow=False)
-    filename = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3'
+    # filename = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3'
+    filename = os.path.join(curr_dir, '..', testvoice.mp3)
     myobj.save(filename)
     playsound(filename)
-    os.remove('C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3')
+    os.remove(filename)
+    # os.remove('C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3')
 
 def TrainFromSavedPhotos():
     persons = os.listdir(baseDir)
