@@ -1,7 +1,8 @@
 import cv2
 import numpy as numpy
 import lbph as lr
-import sys, os,time
+import sys, os
+from time import sleep
 import msvcrt
 import csv
 from gtts import gTTS
@@ -58,9 +59,14 @@ def LoadModelAndRun():
             cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 3)
             if (prediction[1])<=100 and (prediction[1])>85:
                 print('%s - %s' % (names[prediction[0]],"marked PRESENT"))
-                s = str(names[prediction[0]]) + "marked PRESENT"
                 cv2.putText(im,'%s - %.0f%s' % (names[prediction[0]],prediction[1],"%"),(x-10, y-10), cv2.FONT_HERSHEY_TRIPLEX,2,(0, 255, 0))
+                s = str(names[prediction[0]]) + "marked PRESENT"
                 play__sound(s)
+                sleep(2)
+                play__sound("Next Student, Please Come Forward")
+                # space
+                # for
+                # handling enrollment number of recognized face to send request to DB
             else:
                 cv2.putText(im,'not recognized',(x-10, y-10), cv2.FONT_HERSHEY_PLAIN,1,(0, 255, 0))
 
@@ -70,8 +76,11 @@ def LoadModelAndRun():
             break
     cv2.destroyAllWindows()
 
+
 while True:
-        user=input('\n___________________________________________\n\n0.Train from Saved Photos\n1.Train From Webcam \n2.Run\n3.Exit: \n\n')
+        print('\n___________________________________________\n\n0.Train from Saved Photos\n1.Train From Webcam \n2.Run\n3.Exit: \n\n')
+        play__sound("Choose 0 to train from Saved Photos, Choose 1 to train from Webcam, Choose 2 to Run Recognition and Choose 3 to Exit.")
+        user=input("-->")
         if user == '0':
             TrainFromSavedPhotos()
             
@@ -86,3 +95,4 @@ while True:
             break
         else:
             print("Enter Valid input!\n\n")
+            play__sound("Please Enter valid Input")

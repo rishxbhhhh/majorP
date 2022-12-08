@@ -2,15 +2,27 @@ import os,sys,time
 import cv2
 import numpy
 import lbph as lr
+from playsound import playsound
+from gtts import gTTS
 
 savedModelLocation = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorP\\code\\trained_face_model.npy'
 baseDir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\data'
 fn_haar = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\code\\haarcascade_frontalface_default.xml'
 fn_dir = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\res\\database'
 
+def play__sound(s):
+    mytext = s
+    language = 'en-us'
+    myobj = gTTS(text=mytext, lang=language, slow=False)
+    filename = 'C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3'
+    myobj.save(filename)
+    playsound(filename)
+    os.remove('C:\\Users\\Rishabh Rajpurohit\\Documents\\majorp\\testvoice.mp3')
+
 def TrainFromSavedPhotos():
     persons = os.listdir(baseDir)
     print("Fetching Data...")
+    play__sound("Fetching Data")
     for person in persons:
         images = os.listdir(baseDir+"\\"+person)
         count = 0
@@ -43,6 +55,7 @@ def TrainFromSavedPhotos():
                     break; 
 
     print('Training...')
+    play__sound("The model is now Training")
 
     # Create a list of images and a list of corresponding names
     (images, lables, names, id) = ([], [], {}, 0)
@@ -62,12 +75,14 @@ def TrainFromSavedPhotos():
     (images, lables) = [numpy.array(lis) for lis in [images, lables]]
     trained_face_recognizer=lr.train_lbph(images)
     print('done')
+    play__sound("The model is now trained.")
     numpy.save(savedModelLocation,trained_face_recognizer)
     
 
 def TrainFromWebcam():
     count = 0
     size = 4
+    play__sound("Please Enter Enrollment Number or ID")
     fn_name = input('Enter Enrollment/ID No. of Student/Staff: ') 
     path = os.path.join(fn_dir, fn_name)
     if not os.path.isdir(path):
@@ -78,6 +93,7 @@ def TrainFromWebcam():
 
     print("--------------Ensure that the room is well lit--------------")
     print("-----------------------Taking pictures----------------------")
+    play__sound("Ensure the room is well lit and the distance between face and camera is within half a meter for better accuracy.")
     # The program loops until it has a few images of the face.
 
     while count < 20:
@@ -108,6 +124,7 @@ def TrainFromWebcam():
     webcam.release()
     size = 4
     print('Training...')
+    play__sound("The model is now training")
     # Create a list of images and a list of corresponding names
     (images, lables, names, id) = ([], [], {}, 0)
     for (subdirs, dirs, files) in os.walk(fn_dir):
@@ -126,4 +143,5 @@ def TrainFromWebcam():
     (images, lables) = [numpy.array(lis) for lis in [images, lables]]
     trained_face_recognizer=lr.train_lbph(images)
     print('done')
+    play__sound("the model is now trained")
     numpy.save(savedModelLocation,trained_face_recognizer)
