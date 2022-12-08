@@ -101,7 +101,8 @@ def LoadModelAndRun():
     cv2.destroyAllWindows()
 
 
-while True:
+def init():
+    while True:
         #play__sound("Choose 0 to train from Saved Photos, Choose 1 to train from Webcam, Choose 2 to Run Recognition and Choose 3 to Exit.")
         print('___________________________________________\n\n0.Train from Saved Photos\n1.Train From Webcam \n2.Run \n3.Reset Model \n4.Exit:\n')
         user=input("-->")
@@ -112,7 +113,12 @@ while True:
             TrainFromWebcam()
             
         elif user=='2':
-            LoadModelAndRun()
+            try:
+                LoadModelAndRun()
+            except:
+                break
+            finally:
+                init()
     
         elif user=='3':
             os.remove(savedModelLocation)
@@ -124,3 +130,5 @@ while True:
             print("Enter Valid input!\n\n")
             #play__sound("Please enter a valid input")
         
+
+init()
