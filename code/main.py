@@ -45,6 +45,7 @@ def play__sound(s):
 
 def LoadModelAndRun():
     s__no = 1
+    recognized__students__list.clear()
     sub__name, cls__type, faculty__name, cls__time = input('''\nEnter the following Details:\nFormat: <Sub_name>,<Class_type>,<Faculty_Name>,<Class_time>\n--->''').split(',')
     try:
         trained_face_recognizer=numpy.load(savedModelLocation)
