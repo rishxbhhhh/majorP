@@ -5,3 +5,5 @@ __pycache__
 trained_face_model.npy
 *.mp3
 code/db.py
+img
+Attendance

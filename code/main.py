@@ -8,6 +8,7 @@ from playsound import playsound
 from datetime import date,datetime
 import pandas as pd
 from train import TrainFromSavedPhotos,TrainFromWebcam
+import threading
 recognized__students__list = list()
 date_today_compressed = date.today().strftime("%a-%d-%m-%y")
 date_today_detailed = date.today().strftime("%a-%d-%B-%Y")
@@ -89,13 +90,13 @@ def LoadModelAndRun():
                         s__no += 1
                     print('%s - %s' % (names[prediction[0]],"marked PRESENT"))
                     cv2.putText(im,'%s - %.0f%s' % (names[prediction[0]],prediction[1],"%"),(x-10, y-10), cv2.FONT_HERSHEY_PLAIN,1,(0, 255, 0))
-                    play__sound(str(names[prediction[0]]) + "marked PRESENT")
+                    #play__sound(str(names[prediction[0]]) + "marked PRESENT")
                     #play__sound("next student, please come forward")
                 
             else:
                 cv2.putText(im,'not recognized',(x-10, y-10), cv2.FONT_HERSHEY_PLAIN,1,(0, 255, 0))
 
-        #cv2.imshow('OpenCV', im)
+    #cv2.imshow('OpenCV', im)
         key = cv2.waitKey(10)
         if key == 27:
             break
@@ -104,9 +105,11 @@ def LoadModelAndRun():
 
 def init():
     while True:
-        #play__sound("Choose 0 to train from Saved Photos, Choose 1 to train from Webcam, Choose 2 to Run Recognition and Choose 3 to Exit.")
+        x = threading.Thread(target=playsound,args=("C:\\Users\\Rishabh Rajpurohit\\Documents\\majorP\\res\\menu__sound.mp3",))
+        x.start()
         print('___________________________________________\n\n0.Train from Saved Photos\n1.Train From Webcam \n2.Run \n3.Reset Model \n4.Exit:\n')
         user=input("-->")
+        x.join()
         if user == '0':
             TrainFromSavedPhotos()
             
